@@ -11,8 +11,12 @@ import { useSectionInView } from "@/lib/hooks";
 import { useActiveSectionContext } from "@/context/active-section-context";
 import profile from "@/public/profile.png";
 
-
-export default function Intro() {
+type IProps = {
+  fullname : string,
+  role : string,
+  profileImg?: string
+}
+export default function Intro({fullname, role, profileImg} : IProps) {
   const { ref } = useSectionInView("Home", 0.5);
   const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
 
@@ -33,7 +37,7 @@ export default function Intro() {
             }}
           >
             <Image
-              src={profile}
+              src={profileImg ?? profile}
               alt="Raka Murdiarta"
               width="192"
               height="192"
@@ -64,8 +68,8 @@ export default function Intro() {
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <span className="font-bold">Hello, I'm Raka.</span> I'm a{" "}
-        <span className="font-bold">backend developer</span> with{" "}
+        <span className="font-bold">Hello, I'm {fullname}.</span> I'm a{" "}
+        <span className="font-bold">{role}</span> with{" "}
         <span className="font-bold">1 years</span> of experience. I enjoy
         building <span className="italic">sites & apps</span>
       </motion.h1>

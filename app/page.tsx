@@ -5,11 +5,27 @@ import Intro from "@/components/intro";
 import Projects from "@/components/projects";
 import SectionDivider from "@/components/section-divider";
 import Skills from "@/components/skills";
+import { client } from "@/lib/contentful/client";
 
-export default function Home() {
+const getProfile = async (): Promise<any> => {
+  const profile = await client.getEntries({
+    content_type: "profile",
+  });
+
+  return profile;
+};
+
+export default async function Home() {
+  const profile = await getProfile();
+
+  console.log({ profile: profile.items[0].fields.profileImg.fields.file.url });
   return (
     <main className="flex flex-col items-center px-4">
-      <Intro />
+      <Intro
+        fullname={profile.items[0].fields.fullname}
+        role={profile.items[0].fields.role}
+        profileImg={`https:${profile.items[0].fields.profileImg.fields.file.url}`}
+      />
       <SectionDivider />
       <About />
       <Projects />
